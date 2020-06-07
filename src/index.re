@@ -1,8 +1,17 @@
 
-let port = JsSerial.createSerial("/dev/ttyUSB0", ());
-let readline = JsSerial.readLine();
+let port = JsSerial.serial("/dev/ttyUSB0", ());
+let readline = JsSerial.readline(port);
 
-JsSerial.pipe(port, readline)
-JsSerial.on(readline, `line(line => Js.log(line)));
+readline
+  -> JsSerial.on(`line(line => line
+                       -> Js.String.trim
+                       -> Js.log))
+  
+  -> JsSerial.on(`close(() => {
+  Js.log("port closed, exiting");
+  Node.Process.exit(0);
+}));
+
+
 
 
