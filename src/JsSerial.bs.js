@@ -2,13 +2,21 @@
 'use strict';
 
 var Serialport = require("serialport");
+var ParserReadline = require("@serialport/parser-readline");
 
-function createSerial(port, configOpt, param) {
+function serial(device, configOpt, param) {
   var config = configOpt !== undefined ? configOpt : ({
-        baud: 6400
+        baudRate: 115200
       });
-  return new Serialport(port, config);
+  return new Serialport(device, config);
 }
 
-exports.createSerial = createSerial;
+function readline(port) {
+  var rl = new ParserReadline();
+  port.pipe(rl);
+  return rl;
+}
+
+exports.serial = serial;
+exports.readline = readline;
 /* serialport Not a pure module */
