@@ -4,6 +4,21 @@
 var Serialport = require("serialport");
 var ParserReadline = require("@serialport/parser-readline");
 
+function writeOption(port, msg) {
+  if (msg !== undefined) {
+    port.write(msg + "\n");
+    return /* () */0;
+  } else {
+    return /* () */0;
+  }
+}
+
+function write(port, msg) {
+  console.log("<", msg);
+  port.write(msg + "\n");
+  return /* () */0;
+}
+
 function serial(device, configOpt, param) {
   var config = configOpt !== undefined ? configOpt : ({
         baudRate: 115200
@@ -17,6 +32,8 @@ function readline(port) {
   return rl;
 }
 
+exports.writeOption = writeOption;
+exports.write = write;
 exports.serial = serial;
 exports.readline = readline;
 /* serialport Not a pure module */

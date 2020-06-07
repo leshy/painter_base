@@ -10,9 +10,14 @@ var port = JsSerial$Base.serial("/dev/ttyUSB0", {
 
 var readline = JsSerial$Base.readline(port);
 
+function dispatch(port, msg) {
+  console.log("> " + msg);
+  var tmp = msg === "[MSG:'$H'|'$X' to unlock]" ? "$X" : undefined;
+  return JsSerial$Base.writeOption(port, tmp);
+}
+
 readline.on("data", (function (line) {
-          console.log(line.trim());
-          return /* () */0;
+          return dispatch(port, line.trim());
         })).on("close", (function (param) {
         console.log("port closed, exiting");
         return Process.exit(0);
@@ -20,4 +25,5 @@ readline.on("data", (function (line) {
 
 exports.port = port;
 exports.readline = readline;
+exports.dispatch = dispatch;
 /* port Not a pure module */
