@@ -1,4 +1,4 @@
-
+  
 let init = (device: string): JsSerial.t => {
 
   let port = JsSerial.serial(device, ());
@@ -12,7 +12,7 @@ let init = (device: string): JsSerial.t => {
   });
   };
 
-  readline
+  ignore(readline
     -> JsSerial.on(`data(line => line
                          -> Js.String.trim
                          -> dispatch(port, _)))
@@ -21,11 +21,14 @@ let init = (device: string): JsSerial.t => {
     
     Js.log("port closed, exiting");
     Node.Process.exit(0);
-  }));
+  })));
 
   port
 }
 
+
+
+  
 /* let write = JsSerial.write(port); */
 /* write("$X"); */
 /* write("G21"); */

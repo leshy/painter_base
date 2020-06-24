@@ -1,10 +1,3 @@
-/* 
-can I restrict baud rates with a type system? 
-can variant types have numbers as names? 
-can I map those numbers implicitly to js? 
-
-can readLine function optionally take serialobject or externalCreateSerial and dispatch automatically?
-*/
 
 type t;
 type readline;
