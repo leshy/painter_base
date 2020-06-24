@@ -30,7 +30,6 @@ let write = (port: t, msg: string) => {
   jsWrite(port, msg ++ "\n")
 }
 
-
 let serial = (device: string, ~config: config={ baudRate: 115200 }, ()) => jsCreateSerial(device, config);
   
 let readline = (port: t) => {

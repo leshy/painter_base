@@ -2,18 +2,7 @@
 'use strict';
 
 
-function add(v1, v2) {
-  return v1.clone().add(v2);
-}
-
-function normalize(v) {
-  return v.clone().normalize();
-}
-
-var Vector2 = {
-  add: add,
-  normalize: normalize
-};
+var Vector2 = { };
 
 exports.Vector2 = Vector2;
 /* No side effect */

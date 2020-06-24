@@ -2,17 +2,10 @@
 'use strict';
 
 var Three = require("three");
-var Three$Base = require("./Three.bs.js");
 
 var vector1 = new Three.Vector2(0.0, 1.0);
 
-var vector2 = new Three.Vector2(0.5, 1.0);
-
-var vector3 = Three$Base.Vector2.normalize(Three$Base.Vector2.add(vector1, vector2));
-
-console.log(vector3);
+console.log(vector1);
 
 exports.vector1 = vector1;
-exports.vector2 = vector2;
-exports.vector3 = vector3;
 /* vector1 Not a pure module */
