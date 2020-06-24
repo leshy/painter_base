@@ -1,10 +1,7 @@
-open Three
+open Three;
 
-let vector1 = Vector2.make(0.0, 1.0);
-let vector2 = Vector2.make(0.5, 1.0);
-let vector3 = Vector2.add(vector1, vector2) /* -> Vector2.normalize; */
-
-Js.log(vector1)
+let vector3 = Vector2.add(Vector2.V(0.5, 1.5), Vector2.V(0.0, 1.0)) -> Vector2.multiplyScalar(3.0, _)
+Js.log(vector3);
 
 /* let g = Grbl.init("/dev/ttyUSB0"); */
 

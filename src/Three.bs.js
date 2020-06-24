@@ -4,11 +4,7 @@
 var Block = require("bs-platform/lib/js/block.js");
 var Three = require("three");
 
-function make(x, y) {
-  return /* ThreeInstance */Block.__(1, [new Three.Vector2(x, y)]);
-}
-
-function ensureInstance(v) {
+function ensureT(v) {
   if (v.tag) {
     return v[0];
   } else {
@@ -16,7 +12,7 @@ function ensureInstance(v) {
   }
 }
 
-function ensureInstanceClone(v) {
+function ensureTClone(v) {
   if (v.tag) {
     return v[0].clone();
   } else {
@@ -25,14 +21,28 @@ function ensureInstanceClone(v) {
 }
 
 function add(v1, v2) {
-  return ensureInstance(v1).add(ensureInstance(v2));
+  return /* Three */Block.__(1, [ensureT(v1).add(ensureT(v2))]);
+}
+
+function normalize(v) {
+  return /* Three */Block.__(1, [ensureT(v).normalize()]);
+}
+
+function length(v) {
+  return ensureT(v).length();
+}
+
+function multiplyScalar(m, v) {
+  return /* Three */Block.__(1, [ensureT(v).multiplyScalar(m)]);
 }
 
 var Vector2 = {
-  make: make,
-  ensureInstance: ensureInstance,
-  ensureInstanceClone: ensureInstanceClone,
-  add: add
+  ensureT: ensureT,
+  ensureTClone: ensureTClone,
+  add: add,
+  normalize: normalize,
+  length: length,
+  multiplyScalar: multiplyScalar
 };
 
 exports.Vector2 = Vector2;
