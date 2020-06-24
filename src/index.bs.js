@@ -2,7 +2,9 @@
 'use strict';
 
 var Block = require("bs-platform/lib/js/block.js");
+var Grbl$Base = require("./Grbl.bs.js");
 var Three$Base = require("./Three.bs.js");
+var Painter$Base = require("./Painter.bs.js");
 
 var __x = Three$Base.Vector2.add(/* V */Block.__(0, [
         0.5,
@@ -16,5 +18,10 @@ var vector3 = Three$Base.Vector2.multiplyScalar(3.0, __x);
 
 console.log(vector3);
 
+var painter = Painter$Base.init(Grbl$Base.init("/dev/ttyUSB0"));
+
+console.log(painter);
+
 exports.vector3 = vector3;
+exports.painter = painter;
 /* __x Not a pure module */

@@ -1,5 +1,7 @@
-  
-let init = (device: string): JsSerial.t => {
+
+type t = JsSerial.t;
+
+let init = (device: string): t => {
 
   let port = JsSerial.serial(device, ());
   let readline = JsSerial.readline(port);
