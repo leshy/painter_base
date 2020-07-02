@@ -2,13 +2,54 @@
 'use strict';
 
 var Rxjs = require("rxjs");
+var Block = require("bs-platform/lib/js/block.js");
+var Curry = require("bs-platform/lib/js/curry.js");
 var Grbl$Base = require("./Grbl.bs.js");
+var CamlinternalOO = require("bs-platform/lib/js/camlinternalOO.js");
+
+function commandToGrbl(command) {
+  if (command.tag) {
+    return /* G1 */Block.__(1, [
+              command[0],
+              command[1]
+            ]);
+  } else if (command[0]) {
+    return /* M3 */Block.__(2, [0]);
+  } else {
+    return /* M3 */Block.__(2, [1000]);
+  }
+}
+
+function sendCommand(painter, command) {
+  return Grbl$Base.sendCommand(painter.grbl, commandToGrbl(command));
+}
+
+var class_tables = /* Cons */[
+  0,
+  0,
+  0
+];
+
+function draw(painter, drawing) {
+  if (!class_tables[0]) {
+    var $$class = CamlinternalOO.create_table(0);
+    var env = CamlinternalOO.new_variable($$class, "");
+    var env_init = function (env$1) {
+      var self = CamlinternalOO.create_object_opt(0, $$class);
+      self[env] = env$1;
+      return self;
+    };
+    CamlinternalOO.init_class($$class);
+    class_tables[0] = env_init;
+  }
+  return Curry._1(class_tables[0], 0);
+}
 
 function init(grbl) {
   return {
           grbl: grbl,
           painting: false,
-          subject: new Rxjs.Subject()
+          write: new Rxjs.Subject()
         };
 }
 
@@ -22,6 +63,9 @@ function paint(painter, state) {
   }
 }
 
+exports.commandToGrbl = commandToGrbl;
+exports.sendCommand = sendCommand;
+exports.draw = draw;
 exports.init = init;
 exports.paint = paint;
 /* rxjs Not a pure module */

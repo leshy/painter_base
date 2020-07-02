@@ -42,7 +42,8 @@ function sendCommand(grbl, command) {
 function init(device) {
   var port = JsSerial$Base.serial(device, undefined, /* () */0);
   var readline = JsSerial$Base.readline(port);
-  var subject = new Rxjs.Subject();
+  var read = new Rxjs.Subject();
+  var write = new Rxjs.Subject();
   readline.on("data", (function (line) {
             var port$1 = port;
             var msg = line.trim();
@@ -51,7 +52,7 @@ function init(device) {
             if (msg === "[MSG:'$H'|'$X' to unlock]") {
               tmp = "$X";
             } else {
-              subject.next(msg);
+              read.next(msg);
               tmp = undefined;
             }
             return JsSerial$Base.writeOption(port$1, tmp);
@@ -61,7 +62,8 @@ function init(device) {
         }));
   return {
           serial: port,
-          subject: subject
+          read: read,
+          write: write
         };
 }
 

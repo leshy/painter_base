@@ -4,7 +4,8 @@ type grblMsg = string;
 
 type t = {
   serial: JsSerial.t,
-  subject: Subject.t(grblMsg),
+  read: Subject.t(grblMsg),
+  write: Subject.t(grblMsg),
 };
 
 let send = (grbl: t, message: grblMsg) => {
@@ -20,12 +21,15 @@ let rec sendMany = (grbl: t, messages: list(grblMsg)) => {
   };
 };
 
-type grblCommand =
+type command =
   | G0(float, float)
   | G1(float, float)
   | M3(int);
 
-let commandToString = (command: grblCommand): string => {
+type reply =
+  | OK
+
+let commandToString = (command: command): string => {
   switch (command) {
   | G0(x, y) => "G0 " ++ Js.Float.toString(x) ++ " " ++ Js.Float.toString(y)
   | G1(x, y) => "G1 " ++ Js.Float.toString(x) ++ " " ++ Js.Float.toString(y)
@@ -33,7 +37,7 @@ let commandToString = (command: grblCommand): string => {
   };
 };
 
-let sendCommand = (grbl: t, command: grblCommand) => {
+let sendCommand = (grbl: t, command: command) => {
   send(grbl, commandToString(command));
 };
 
@@ -41,7 +45,8 @@ let init = (device: string): t => {
   let port = JsSerial.serial(device, ());
   let readline = JsSerial.readline(port);
 
-  let subject = Subject.create();
+  let read = Subject.create();
+  let write = Subject.create();
 
   let dispatch = (port: JsSerial.t, msg: string) => {
     Js.log2(">", msg);
@@ -50,7 +55,7 @@ let init = (device: string): t => {
       switch (msg) {
       | "[MSG:'$H'|'$X' to unlock]" => Some("$X")
       | _ =>
-        Subject.next(msg, subject);
+        Subject.next(msg, read);
         None;
       },
     );
@@ -69,7 +74,7 @@ let init = (device: string): t => {
       ),
   );
 
-  {subject, serial: port};
+  {read, write, serial: port};
 };
 
 /* let write = JsSerial.write(port); */
