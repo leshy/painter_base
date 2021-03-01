@@ -21,6 +21,6 @@
     "bs-fetch": "^0.6.1",
     "reason-promise": "^1.1.1",
     "serialport": "^9.0.0",
-    "three": "^0.118.0"
+    "three": "^0.125.0"
   }
 }
